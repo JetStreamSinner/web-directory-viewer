@@ -10,6 +10,16 @@ load_dotenv()
 
 application = FastAPI()
 
+static_dir = os.getenv("static_dir")
+
+if not static_dir:
+    default_static_dir = "../static"
+    static_dir = default_static_dir
+
+sub_application_static_dir = "/static"
+internal_use_dir = "static"
+application.mount(sub_application_static_dir, StaticFiles(directory=static_dir), internal_use_dir)
+
 templates_dir = "templates"
 templates = Jinja2Templates(directory=templates_dir)
 
