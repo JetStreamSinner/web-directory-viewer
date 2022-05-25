@@ -5,6 +5,14 @@
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='stylesheet/index.css') }}">
 </head>
 <body>
-
+    <section class="body_wrapper">
+        <section class="view">
+            <ul class="directory_items">
+                {% for directory_item in directory_items %}
+                    <li class="directory_item">{{ directory_item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </section>
 </body>
 </html>

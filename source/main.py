@@ -1,4 +1,5 @@
 import os
+import os.path as filesystem
 from fastapi import FastAPI
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
@@ -26,6 +27,9 @@ templates = Jinja2Templates(directory=templates_dir)
 
 @application.get("/", response_class=HTMLResponse)
 def root(request: Request):
+    directory_items = ["..."]
+    directory_items.extend(os.listdir())
     return templates.TemplateResponse(name="index.html", context={
-        "request": request
+        "request": request,
+        "directory_items": directory_items
     })
