@@ -27,9 +27,16 @@ templates = Jinja2Templates(directory=templates_dir)
 
 @application.get("/", response_class=HTMLResponse)
 def root(request: Request):
+    current_dir_cookie_key = "dir"
+    if current_dir_cookie_key not in request.cookies:
+        current_directory = filesystem.abspath(os.getcwd())
+    else:
+        current_directory = request.cookies.get(current_dir_cookie_key)
     directory_items = ["..."]
     directory_items.extend(os.listdir())
-    return templates.TemplateResponse(name="index.html", context={
+    response = templates.TemplateResponse(name="index.html", context={
         "request": request,
         "directory_items": directory_items
     })
+    response.set_cookie(key="dir", value=current_directory)
+    return response

@@ -36,3 +36,7 @@ html, body {
     list-style: none;
     background: cornflowerblue;
 }
+
+.directory_item:hover {
+    opacity: 75%;
+}
