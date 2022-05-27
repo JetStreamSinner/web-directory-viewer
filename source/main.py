@@ -26,18 +26,19 @@ application.mount(sub_application_static_dir, StaticFiles(directory=static_dir),
 templates_dir = "templates"
 templates = Jinja2Templates(directory=templates_dir)
 
+current_path_cookie_key = "dir"
+
 
 @application.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    current_dir_cookie_key = "dir"
-    if current_dir_cookie_key not in request.cookies:
-        current_directory = os.getcwd()
+    if current_path_cookie_key not in request.cookies:
+        current_path = os.getcwd()
     else:
-        current_directory = request.cookies.get(current_dir_cookie_key)
+        current_path = request.cookies.get(current_path_cookie_key)
     response = templates.TemplateResponse(name="index.html", context={
         "request": request
     })
-    response.set_cookie(key="dir", value=current_directory)
+    response.set_cookie(key=current_path_cookie_key, value=current_path)
     return response
 
 
@@ -45,14 +46,14 @@ async def root(request: Request):
 async def get_dir(request: Request):
     request_body = await request.json()
 
-    target_directory = request_body["cwd"]
-    current_directory = request.cookies.get("dir")
+    target_path = request_body["cwd"]
+    current_path = request.cookies.get(current_path_cookie_key)
 
-    next_dir, directory_items = make_dir_body(current_directory, target_directory)
+    next_path, directory_info = make_dir_body(current_path, target_path)
 
     response_data = jsonable_encoder({
-        "directory_items": directory_items
+        "directory_info": directory_info
     })
     response = JSONResponse(content=response_data)
-    response.set_cookie("dir", next_dir)
+    response.set_cookie("dir", next_path)
     return response
