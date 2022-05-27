@@ -1,4 +1,3 @@
-
 function get_cookie(key) {
     const cookies = document.cookie;
     const cookiesStrings = cookies.split(";");
@@ -42,7 +41,17 @@ async function get_dirs(work_directory) {
 
 function create_directory_item_node(item_title) {
     const node = document.createElement("li");
-    node.innerText = item_title;
+
+    const path_to_folder_icon = "/static/resources/images/folder_icon.png"
+    const imageItem = document.createElement("img");
+    imageItem.src = path_to_folder_icon
+    imageItem.className = "item_icon";
+
+    const textItem = document.createElement("span");
+    textItem.innerText = item_title;
+
+    node.appendChild(imageItem);
+    node.appendChild(textItem);
     node.className = "directory_item";
     node.addEventListener("click", (event) => {
         const next_dir = event.target.innerText;
@@ -50,7 +59,6 @@ function create_directory_item_node(item_title) {
             .then((dirs) => {
                 updateView(dirs);
             })
-        console.log("next dir", next_dir);
     })
     return node;
 }

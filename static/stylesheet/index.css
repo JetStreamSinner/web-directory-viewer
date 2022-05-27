@@ -35,8 +35,18 @@ html, body {
     margin: 5px;
     list-style: none;
     background: cornflowerblue;
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
 }
 
 .directory_item:hover {
     opacity: 75%;
+}
+
+.item_icon {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
 }
