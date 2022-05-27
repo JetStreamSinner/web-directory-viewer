@@ -50,3 +50,7 @@ html, body {
     height: 20px;
     margin: 5px;
 }
+
+.no_select {
+    user-select: none;
+}

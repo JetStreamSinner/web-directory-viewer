@@ -63,6 +63,7 @@ function create_directory_item_node(item_text, item_type) {
     image_item.className = "item_icon";
 
     const text_item = document.createElement("span");
+    text_item.className = "no_select";
     text_item.innerText = item_text;
 
     node.appendChild(image_item);
