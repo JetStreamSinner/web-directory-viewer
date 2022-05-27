@@ -19,6 +19,7 @@ def make_dir_body(current_dir: str, target_dir: str):
         target_dir = filesystem.basename(target_dir)
         next_dir = filesystem.abspath(current_dir + "/" + target_dir)
 
-    next_dir_list = [".."]
+    top_dir_exist = next_dir != "/" and next_dir != "//"
+    next_dir_list = [".."] if top_dir_exist else []
     next_dir_list.extend(os.listdir(next_dir))
     return next_dir, next_dir_list
