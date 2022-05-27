@@ -26,7 +26,15 @@ function createExpireToolTip(text) {
 
     tipFrame.appendChild(tip);
     document.body.appendChild(tipFrame);
-    const expirationTime = 500;
+    const expirationTime = 1000;
+    const opacityReductionTime = expirationTime / 100;
+    let baseOpacity = 100;
+
+    setInterval(() => {
+        tipFrame.style.opacity = `${baseOpacity}%`;
+        baseOpacity -= 1;
+    }, opacityReductionTime);
+
     setTimeout(() => {
         tipFrame.remove();
     }, expirationTime);
