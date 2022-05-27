@@ -1,40 +1,38 @@
 function get_cookie(key) {
     const cookies = document.cookie;
-    const cookiesStrings = cookies.split(";");
-    let cookiesDict = {
+    const cookies_string = cookies.split(";");
+    let cookies_dict = {};
+    cookies_string.forEach((cookies_string) => {
+        const cookie_pair = cookies_string.split("=");
+        const key_index = 0;
+        const value_index = 1;
 
-    };
-    cookiesStrings.forEach((cookieString) => {
-        const cookiePair = cookieString.split("=");
-        const keyIndex = 0;
-        const valueIndex = 1;
+        const cookie_key = cookie_pair[key_index];
+        const first_bracket_index = 1;
+        const last_bracket_index = cookie_pair[value_index].length - 1;
+        const cookie_value = cookie_pair[value_index];
 
-        const cookieKey = cookiePair[keyIndex];
-        const firstBracketIndex = 1;
-        const lastBracketIndex = cookiePair[valueIndex].length - 1;
-        const cookieValue = cookiePair[valueIndex];
-
-        cookiesDict[cookieKey] = cookieValue;
+        cookies_dict[cookie_key] = cookie_value;
     });
-    return cookiesDict[key];
+    return cookies_dict[key];
 }
 
 async function get_dirs(work_directory) {
     const url = "/dir"
 
-    const requestBody = {
+    const request_body = {
         "cwd": work_directory
     }
 
-    const requestOptions = {
+    const request_options = {
         method: "POST",
         mode: "cors",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(request_body)
     }
-    const response = await fetch(url, requestOptions);
+    const response = await fetch(url, request_options);
     const json = await response.json();
     return json;
 }
@@ -43,35 +41,34 @@ function create_directory_item_node(item_title) {
     const node = document.createElement("li");
 
     const path_to_folder_icon = "/static/resources/images/folder_icon.png"
-    const imageItem = document.createElement("img");
-    imageItem.src = path_to_folder_icon
-    imageItem.className = "item_icon";
+    const image_item = document.createElement("img");
+    image_item.src = path_to_folder_icon
+    image_item.className = "item_icon";
 
-    const textItem = document.createElement("span");
-    textItem.innerText = item_title;
+    const text_item = document.createElement("span");
+    text_item.innerText = item_title;
 
-    node.appendChild(imageItem);
-    node.appendChild(textItem);
+    node.appendChild(image_item);
+    node.appendChild(text_item);
     node.className = "directory_item";
     node.addEventListener("click", (event) => {
         const next_dir = event.target.innerText;
         get_dirs(next_dir)
             .then((dirs) => {
-                updateView(dirs);
+                update_view(dirs);
             })
     })
     return node;
 }
 
-function updateView(dirs) {
-    const itemsView = document.getElementsByClassName("directory_items")[0];
-    itemsView.innerHTML = "";
+function update_view(dirs) {
+    const items_view = document.getElementsByClassName("directory_items")[0];
+    items_view.innerHTML = "";
     const items = dirs["directory_items"];
-    items.forEach((directoryItem) => itemsView.appendChild(create_directory_item_node(directoryItem)));
+    items.forEach((directory_item) => items_view.appendChild(create_directory_item_node(directory_item)));
 }
-
 
 const current_dir = get_cookie("dir");
 get_dirs(current_dir).then((dirs) => {
-    updateView(dirs);
+    update_view(dirs);
 });
