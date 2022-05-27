@@ -54,3 +54,11 @@ html, body {
 .no_select {
     user-select: none;
 }
+
+.tip_frame {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    padding: 6px;
+    background: cornflowerblue;
+}

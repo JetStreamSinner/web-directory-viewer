@@ -17,11 +17,41 @@ function get_cookie(key) {
     return cookies_dict[key];
 }
 
+function createExpireToolTip(text) {
+    const tipFrame = document.createElement("div");
+    tipFrame.className = "tip_frame";
+
+    const tip = document.createElement("span");
+    tip.innerText = text;
+
+    tipFrame.appendChild(tip);
+    document.body.appendChild(tipFrame);
+    const expirationTime = 500;
+    setTimeout(() => {
+        tipFrame.remove();
+    }, expirationTime);
+}
+
+function handleError(error) {
+    if (error.code == 400) {
+        createExpireToolTip(error.message);
+    }
+}
+
+function RequestError(message, error_code) {
+    this.name = "RequestError";
+    this.message = message;
+    this.stack = (new Error()).stack;
+    this.code = error_code
+}
+RequestError.prototype = Object.create(Error.prototype);
+RequestError.prototype.constructor = RequestError;
+
 async function get_dirs(work_directory) {
     const url = "/dir"
 
     const request_body = {
-        "cwd": work_directory
+        "target_directory": work_directory
     }
 
     const request_options = {
@@ -34,6 +64,10 @@ async function get_dirs(work_directory) {
     }
     const response = await fetch(url, request_options);
     const json = await response.json();
+
+    if (response.status == 400) {
+        throw new RequestError(json.detail, response.status);
+    }
     return json;
 }
 
@@ -75,6 +109,7 @@ function create_directory_item_node(item_text, item_type) {
             .then((dirs) => {
                 update_view(dirs);
             })
+            .catch((error) => handleError(error));
     })
     return node;
 }
@@ -95,4 +130,5 @@ function update_view(dirs) {
 const current_dir = get_cookie("dir");
 get_dirs(current_dir).then((dirs) => {
     update_view(dirs);
-});
+})
+    .catch((error) => handleError(error));

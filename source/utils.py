@@ -2,10 +2,20 @@ import os
 import os.path as filesystem
 
 
-def remove_brackets(path: str):
+def validate_path(path: str):
     if path[0] == "\"" and path[-1] == "\"":
         return path[1:-1]
     return path
+
+
+def normalize_path(current_path: str, target_path: str):
+    normalized_path = ""
+    if current_path == target_path:
+        normalized_path = current_path
+    else:
+        target_path = filesystem.basename(target_path)
+        normalized_path = filesystem.abspath(current_path + "/" + target_path)
+    return normalized_path
 
 
 def get_file_meta(path: str):
@@ -41,17 +51,15 @@ def get_directory_info(path: str):
     return next_dir_info
 
 
-def make_dir_body(current_path: str, target_path: str):
-    next_path = ""
-    target_path = remove_brackets(target_path)
+def make_dir_body(path: str):
+    directory_info = get_directory_info(path)
+    return directory_info
 
-    if current_path == target_path:
-        next_path = current_path
-    else:
-        target_path = remove_brackets(target_path)
-        target_path = filesystem.basename(target_path)
-        next_path = filesystem.abspath(current_path + "/" + target_path)
 
-    directory_info = get_directory_info(next_path)
+def is_accessible(path: str):
+    return os.access(path, mode=os.R_OK)
 
-    return next_path, directory_info
+
+def make_error_string(path: str):
+    error_string = "Access to {} restricted".format(path)
+    return error_string

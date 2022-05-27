@@ -1,13 +1,13 @@
 import os
 import os.path as filesystem
 from fastapi import FastAPI
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from dotenv import load_dotenv
-from utils import make_dir_body
+import utils
 
 load_dotenv()
 
@@ -46,14 +46,23 @@ async def root(request: Request):
 async def get_dir(request: Request):
     request_body = await request.json()
 
-    target_path = request_body["cwd"]
-    current_path = request.cookies.get(current_path_cookie_key)
+    target_path = request_body["target_directory"]
+    target_path = utils.validate_path(target_path)
 
-    next_path, directory_info = make_dir_body(current_path, target_path)
+    current_path = request.cookies.get(current_path_cookie_key)
+    target_path = utils.normalize_path(current_path, target_path)
+
+    access_restricted = not utils.is_accessible(target_path)
+    if access_restricted:
+        error = utils.make_error_string(target_path)
+        raise HTTPException(status_code=400, detail=error)
+
+    directory_info = utils.make_dir_body(target_path)
 
     response_data = jsonable_encoder({
         "directory_info": directory_info
     })
+
     response = JSONResponse(content=response_data)
-    response.set_cookie("dir", next_path)
+    response.set_cookie("dir", target_path)
     return response
