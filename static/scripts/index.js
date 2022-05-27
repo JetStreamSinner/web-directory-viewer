@@ -1,4 +1,3 @@
-const url = "/dir"
 
 function get_cookie(key) {
     const cookies = document.cookie;
@@ -14,7 +13,7 @@ function get_cookie(key) {
         const cookieKey = cookiePair[keyIndex];
         const firstBracketIndex = 1;
         const lastBracketIndex = cookiePair[valueIndex].length - 1;
-        const cookieValue = cookiePair[valueIndex].slice(firstBracketIndex, lastBracketIndex);
+        const cookieValue = cookiePair[valueIndex];
 
         cookiesDict[cookieKey] = cookieValue;
     });
@@ -22,6 +21,8 @@ function get_cookie(key) {
 }
 
 async function get_dirs(work_directory) {
+    const url = "/dir"
+
     const requestBody = {
         "cwd": work_directory
     }
@@ -39,21 +40,30 @@ async function get_dirs(work_directory) {
     return json;
 }
 
-function move_to_dir() {
-
-}
-
 function create_directory_item_node(item_title) {
     const node = document.createElement("li");
     node.innerText = item_title;
     node.className = "directory_item";
+    node.addEventListener("click", (event) => {
+        const next_dir = event.target.innerText;
+        get_dirs(next_dir)
+            .then((dirs) => {
+                updateView(dirs);
+            })
+        console.log("next dir", next_dir);
+    })
     return node;
+}
+
+function updateView(dirs) {
+    const itemsView = document.getElementsByClassName("directory_items")[0];
+    itemsView.innerHTML = "";
+    const items = dirs["directory_items"];
+    items.forEach((directoryItem) => itemsView.appendChild(create_directory_item_node(directoryItem)));
 }
 
 
 const current_dir = get_cookie("dir");
-const directoryItems = get_dirs(current_dir).then((dirs) => {
-    const itemsView = document.getElementsByClassName("directory_items")[0];
-    const items = dirs["directory_items"];
-    items.forEach((directoryItem) => itemsView.appendChild(create_directory_item_node(directoryItem)));
+get_dirs(current_dir).then((dirs) => {
+    updateView(dirs);
 });
