@@ -60,7 +60,7 @@ function create_directory_item_node(item_text, item_type) {
 
     const image_item = document.createElement("img");
     image_item.src = get_icon_path(item_type);
-    image_item.className = "item_icon";
+    image_item.className = "item_icon no_select";
 
     const text_item = document.createElement("span");
     text_item.className = "no_select";
