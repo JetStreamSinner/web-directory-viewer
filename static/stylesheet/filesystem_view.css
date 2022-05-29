@@ -26,6 +26,12 @@
     opacity: 75%;
 }
 
+.text_cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .item_icon {
     width: 20px;
     height: 20px;

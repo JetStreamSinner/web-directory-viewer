@@ -82,6 +82,7 @@ function create_directory_item_node(item_text, item_type, item_size, last_modify
     const text_item = document.createElement("span");
     text_item.className = "no_select default_font";
     text_item.innerText = item_text;
+    name_node.className = "text_cell";
     name_node.appendChild(image_item);
     name_node.appendChild(text_item);
 
