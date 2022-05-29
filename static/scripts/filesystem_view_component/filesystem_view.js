@@ -4,9 +4,9 @@ const view_template =
     `<table class="filesystem_view">
         <thead>
         <tr class="view_header stretch_row default_font view_row">
-            <th>Name</th>
-            <th>Size</th>
-            <th>Last modify</th>
+            <th class="header_item">Name</th>
+            <th class="header_item">Size</th>
+            <th class="header_item">Last modify</th>
         </tr>
         </thead>
         <tbody class="view_body">
@@ -73,7 +73,7 @@ function get_icon_path(type) {
 
 function create_directory_item_node(item_text, item_type, item_size, last_modify_time, item_click_handler) {
     const row_node = document.createElement("tr");
-    row_node.className = "view_item stretch_row view_row";
+    row_node.className = "view_item view_row";
     row_node.addEventListener("click", (event) => module_options.click_handler(event));
 
     const name_node = document.createElement("td");
@@ -82,18 +82,18 @@ function create_directory_item_node(item_text, item_type, item_size, last_modify
     image_item.className = "item_icon no_select";
 
     const text_item = document.createElement("span");
-    text_item.className = "no_select default_font";
+    text_item.className = "no_select default_font filename";
     text_item.innerText = item_text;
-    name_node.className = "text_cell";
+    name_node.className = "text_cell fill_width";
     name_node.appendChild(image_item);
     name_node.appendChild(text_item);
 
     const size_node = document.createElement("td");
     size_node.innerText = item_size;
-    size_node.className = "no_select";
+    size_node.className = "no_select fill_wdith";
 
     const last_modify_node = document.createElement("td");
-    last_modify_node.className = "no_select";
+    last_modify_node.className = "no_select fill_width";
     last_modify_node.innerText = format_timestamp(last_modify_time, " ");
 
     row_node.appendChild(name_node);
