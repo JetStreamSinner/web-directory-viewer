@@ -1,3 +1,5 @@
+const {format_timestamp} = require("../utils");
+
 const view_template =
     `<table class="filesystem_view">
         <thead>
@@ -90,7 +92,7 @@ function create_directory_item_node(item_text, item_type, item_size, last_modify
     size_node.innerText = item_size;
 
     const last_modify_node = document.createElement("td");
-    last_modify_node.innerText = last_modify_time;
+    last_modify_node.innerText = format_timestamp(last_modify_time, " ");
 
     row_node.appendChild(name_node);
     row_node.appendChild(size_node);
