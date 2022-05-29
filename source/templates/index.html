@@ -3,23 +3,13 @@
 <head>
     <title>Filesystem viewer</title>
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='stylesheet/index.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', path='stylesheet/filesystem_view.css') }}">
 </head>
 <body>
     <section class="body_wrapper">
-        <section class="view_wrapper">
-            <table class="filesystem_view">
-                <thead>
-                    <tr class="view_header stretch_row default_font view_row">
-                        <th>Name</th>
-                        <th>Size</th>
-                        <th>Last modify</th>
-                    </tr>
-                </thead>
-                <tbody class="view_body">
-                </tbody>
-            </table>
+        <section id="view_wrapper">
         </section>
     </section>
-<script src="{{ url_for('static', path='scripts/index.js') }}"></script>
+<script src="{{ url_for('static', path='scripts/index_bundle.js') }}"></script>
 </body>
 </html>

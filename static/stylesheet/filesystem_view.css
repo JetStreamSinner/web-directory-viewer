@@ -1,0 +1,41 @@
+.filesystem_view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    line-height: 35px;
+}
+
+.view_row {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.view_header {
+}
+
+.view_body {
+    overflow-y: scroll;
+}
+
+.view_item {
+}
+
+.view_item:hover {
+    opacity: 75%;
+}
+
+.item_icon {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+}
+
+.no_select {
+    user-select: none;
+}
+
+.stretch_row {
+    justify-content: space-between;
+}
