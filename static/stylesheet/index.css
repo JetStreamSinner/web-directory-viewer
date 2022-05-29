@@ -15,33 +15,41 @@ html, body {
     align-items: center;
 }
 
-.view {
+.view_wrapper {
     width: 40%;
     height: 60%;
     border: solid 1px black;
-    overflow-y: scroll;
 }
 
-.directory_items {
-    width: 90%;
-    height: 85%;
+.default_font {
+    font-family: Roboto;
+}
+
+.filesystem_view {
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     line-height: 35px;
 }
 
-.directory_item {
+.view_row {
     width: 90%;
-    margin: 5px;
-    list-style: none;
-    background: cornflowerblue;
     display: flex;
     flex-direction: row;
-    justify-content: start;
-    align-items: center;
 }
 
-.directory_item:hover {
+.view_header {
+}
+
+.view_body {
+    overflow-y: scroll;
+}
+
+.view_item {
+}
+
+.view_item:hover {
     opacity: 75%;
 }
 
@@ -53,6 +61,10 @@ html, body {
 
 .no_select {
     user-select: none;
+}
+
+.stretch_row {
+    justify-content: space-between;
 }
 
 .tip_frame {

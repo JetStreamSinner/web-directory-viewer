@@ -18,7 +18,7 @@ def normalize_path(current_path: str, target_path: str):
     return normalized_path
 
 
-def get_file_meta(path: str):
+def get_file_type(path: str):
     item_type = ""
     if filesystem.isdir(path):
         item_type = "directory"
@@ -28,10 +28,22 @@ def get_file_meta(path: str):
         item_type = "link"
     else:
         item_type = "unknown"
+    return item_type
+
+
+def get_file_meta(path: str):
+    item_type = get_file_type(path)
+    item_size = filesystem.getsize(path)
+    last_access_time = filesystem.getatime(path)
+    last_modification_time = filesystem.getctime(path)
 
     meta = {
-        "type": item_type
+        "type": item_type,
+        "size": item_size,
+        "last_access": last_access_time,
+        "last_modification": last_modification_time
     }
+
     return meta
 
 
@@ -41,13 +53,9 @@ def get_directory_info(path: str):
     next_dir_list = [".."] if top_exist else []
     next_dir_list.extend(os.listdir(path))
 
-    next_dir_info = [
-        {
-            "item_name": filesystem_item,
-            "meta": get_file_meta(path + "/" + filesystem_item)
-        }
-        for filesystem_item in next_dir_list
-    ]
+    next_dir_info = [{"item_name": directory_item,
+                      "meta": get_file_meta(path + "/" + directory_item)}
+                     for directory_item in next_dir_list]
     return next_dir_info
 
 

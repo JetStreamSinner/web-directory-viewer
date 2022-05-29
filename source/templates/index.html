@@ -6,9 +6,18 @@
 </head>
 <body>
     <section class="body_wrapper">
-        <section class="view">
-            <ul class="directory_items">
-            </ul>
+        <section class="view_wrapper">
+            <table class="filesystem_view">
+                <thead>
+                    <tr class="view_header stretch_row default_font view_row">
+                        <th>Name</th>
+                        <th>Size</th>
+                        <th>Last modify</th>
+                    </tr>
+                </thead>
+                <tbody class="view_body">
+                </tbody>
+            </table>
         </section>
     </section>
 <script src="{{ url_for('static', path='scripts/index.js') }}"></script>

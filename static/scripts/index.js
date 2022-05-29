@@ -97,40 +97,58 @@ function get_icon_path(type) {
     }
 }
 
-function create_directory_item_node(item_text, item_type) {
-    const node = document.createElement("li");
-
-    const image_item = document.createElement("img");
-    image_item.src = get_icon_path(item_type);
-    image_item.className = "item_icon no_select";
-
-    const text_item = document.createElement("span");
-    text_item.className = "no_select";
-    text_item.innerText = item_text;
-
-    node.appendChild(image_item);
-    node.appendChild(text_item);
-    node.className = "directory_item";
-    node.addEventListener("click", (event) => {
-        const next_dir = event.target.innerText;
+function create_directory_item_node(item_text, item_type, item_size, last_modify_time) {
+    const row_node = document.createElement("tr");
+    row_node.className = "view_item stretch_row view_row";
+    row_node.addEventListener("click", (event) => {
+        const next_dir = event.currentTarget.childNodes[0].childNodes[1].innerText;
         get_dirs(next_dir)
             .then((dirs) => {
                 update_view(dirs);
             })
             .catch((error) => handleError(error));
-    })
-    return node;
+    });
+
+    const name_node = document.createElement("td");
+    const image_item = document.createElement("img");
+    image_item.src = get_icon_path(item_type);
+    image_item.className = "item_icon no_select";
+
+    const text_item = document.createElement("span");
+    text_item.className = "no_select default_font";
+    text_item.innerText = item_text;
+    name_node.appendChild(image_item);
+    name_node.appendChild(text_item);
+
+    const size_node = document.createElement("td");
+    size_node.innerText = item_size;
+
+    const last_modify_node = document.createElement("td");
+    last_modify_node.innerText = last_modify_time;
+
+    row_node.appendChild(name_node);
+    row_node.appendChild(size_node);
+    row_node.appendChild(last_modify_node);
+
+    return row_node;
+}
+
+function clear_view() {
+    const view_body = document.getElementsByClassName("view_body")[0];
+    view_body.innerText = "";
 }
 
 function update_view(dirs) {
-    const items_view = document.getElementsByClassName("directory_items")[0];
-    items_view.innerHTML = "";
+    const items_view = document.getElementsByClassName("view_body")[0];
     const items = dirs["directory_info"];
+    clear_view();
 
     items.forEach((directory_item) => {
         const item_text = directory_item["item_name"];
         const item_type = directory_item["meta"]["type"];
-        const item = create_directory_item_node(item_text, item_type);
+        const item_size = directory_item["meta"]["size"];
+        const last_modify_time = directory_item["meta"]["last_modification"];
+        const item = create_directory_item_node(item_text, item_type, item_size, last_modify_time);
         items_view.appendChild(item);
     });
 }
