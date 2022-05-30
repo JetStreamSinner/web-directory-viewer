@@ -60,3 +60,11 @@
 .fill_width {
     width: 100%;
 }
+
+.align_right {
+    text-align: right;
+}
+
+.align_center {
+    text-align: center;
+}
