@@ -90,10 +90,10 @@ function create_directory_item_node(item_text, item_type, item_size, last_modify
 
     const size_node = document.createElement("td");
     size_node.innerText = item_size;
-    size_node.className = "no_select fill_wdith";
+    size_node.className = "no_select fill_wdith default_font";
 
     const last_modify_node = document.createElement("td");
-    last_modify_node.className = "no_select fill_width";
+    last_modify_node.className = "no_select fill_width default_font";
     last_modify_node.innerText = format_timestamp(last_modify_time, " ");
 
     row_node.appendChild(name_node);
