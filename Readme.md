@@ -19,17 +19,32 @@ Dependencies list:
 ---
 # Running guide
 
-1. Install python required version;
-2. Install pip for managing python dependencies;
-3. Install python dependencies;
+1. Install python with required version;
+
+3. Install pip for managing python dependencies;
+
+4. Install python dependencies;
 ```
 pip install -r requirements.txt
 ```
-4. Run application
+
+3. Install npm.
+ 
+5. Install js dependencies
+```
+npm install
+```
+
+5. Build js application
+```
+npm run build
+```
+
+6. Run application
 ```
 uvicorn main:application
 ```
 
 # Demo
 
-![Util view](https://i.ibb.co/Fw9NHKS/demo.jpg)
+![Util view](https://i.ibb.co/NKQ5DZ5/demo.jpg)
